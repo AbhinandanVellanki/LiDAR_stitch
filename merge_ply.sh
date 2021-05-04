@@ -1,13 +1,35 @@
-#!/bin/sh
+#!/bin/bash
 
-scan_name=$1
-files=""
-for f in ${scan_name}/*.ply
-do
-	files="${files} -O ${f}"
-done
-echo "Got .ply file names, running merger..."
-CloudCompare -SILENT -NO_TIMESTAMP -C_EXPORT_FMT PLY ${files} -MERGE_CLOUDS -AUTO_SAVE OFF -SAVE_CLOUDS FILE "${scan_name}_merged.ply"
-echo "Saved merged ply file!"
-pcl_ply2pcd -h ${scan_name}_merged.ply ${scan_name}_pcd.pcd
-echo "Saved pcd file!"
+scan_name=${1::-4}
+echo "Scan name: ${scan_name}"
+
+#Convert the lvx file to bag
+echo "Creating bag file..."
+sleep 2
+roslaunch livox_ros_driver lvx_to_rosbag.launch lvx_file_path:="${PWD}/${1}" & PIDCONV=$!
+echo "Bag file created : ${scan_name}.bag!"
+
+sleep 2
+ply_dir="$PWD/${scan_name}_ply"
+mkdir "$ply_dir"
+#convert bag file to pcl
+echo "Converting bag file to pcl..."
+
+sleep 2
+roslaunch loam_livox rosbag_loop.launch & PIDMAS=$!
+rosrun point_cloud_io write _topic:=/velodyne_cloud_registered _folder_path:=$ply_dir & PIDWRI=$!
+sleep 5 #wait for master node and writer to start
+rosbag play ${scan_name}.bag & PIDBAG=$!
+
+wait $PIDWRI
+
+echo "Saved ply files to ${ply_dir}!"
+
+# trap_ctrl_c(){
+# 	kill $PIDBAG
+# 	kill $PIDCONV
+# 	kill $PIDMAS
+# 	kill $PIDWRI
+# }
+
+# trap trap_ctrl_c INT
