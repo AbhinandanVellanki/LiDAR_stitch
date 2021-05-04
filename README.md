@@ -10,7 +10,7 @@
 3. Clone and build Livox Mapping from https://github.com/hku-mars/loam_livox
 4. Clone and build Point Cloud I/O https://github.com/ANYbotics/point_cloud_io
 5. Clone This repository from https://github.com/AbhinandanVellanki/LiDAR_stitch into current directory
-6. run `$sudo apt-get install cloudcompare`
+6. run `$sudo apt-get install cloudcompare` check https://www.cloudcompare.org/doc/wiki/index.php?title=Command_line_mode
 7. Record lvx file and save in current directory
 
 ### Run:
