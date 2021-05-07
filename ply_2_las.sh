@@ -14,8 +14,8 @@ done
 
 echo "Got .ply file names, running merger..."
 #merge loaded ply files using CloudCompare command line
-CloudCompare -SILENT -NO_TIMESTAMP -C_EXPORT_FMT LAS ${files} -MERGE_CLOUDS -AUTO_SAVE OFF -SAVE_CLOUDS FILE "${scan_name}_merged.ply"
-echo "Saved merged LAS file: ${scan_name}_merged.ply"
+CloudCompare -SILENT -NO_TIMESTAMP -C_EXPORT_FMT LAS ${files} -MERGE_CLOUDS -AUTO_SAVE OFF -SAVE_CLOUDS FILE "${scan_name}_merged.las"
+echo "Saved merged LAS file: ${scan_name}_merged.las"
 
 #convert ply file to pcd without changing colour
 #pcl_ply2pcd -h ${scan_name}_merged.ply ${scan_name}_pcd.pcd

@@ -16,4 +16,5 @@
 ### Run:
 1. run `$chmod +x ply_2_pcd.sh lvx_2_ply.sh`
 2. run `$./lvx_2_ply.sh <lvx_filename>`
-3. run `$./ply_2_las.sh <ply folder name>`
+3. Type `CTRL+C` Twice after all messages have been saved
+4. run `$./ply_2_las.sh <ply folder name>`
